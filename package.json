@@ -9,7 +9,10 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@pigment-css/react": "^0.0.30",
+    "@emotion/react": "^11.14.0",
+    "@emotion/styled": "^11.14.1",
+    "@mui/icons-material": "^9.0.0",
+    "@mui/material": "^9.0.0",
     "@tanstack/react-query": "^5",
     "react": "^19",
     "react-dom": "^19",
@@ -18,16 +21,15 @@
     "zod": "^4"
   },
   "pnpm": {
-    "onlyBuiltDependencies": ["esbuild"]
+    "onlyBuiltDependencies": [
+      "esbuild"
+    ]
   },
   "devDependencies": {
-    "@pigment-css/vite-plugin": "^0.0.30",
-    "@tailwindcss/vite": "^4",
     "@tanstack/react-query-devtools": "^5",
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "@vitejs/plugin-react": "^4",
-    "tailwindcss": "^4",
     "typescript": "~5.7.0",
     "vite": "^6"
   }

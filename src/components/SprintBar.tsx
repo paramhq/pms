@@ -1,40 +1,81 @@
-import { icons } from "../icons";
-
-function Icon({ name }: { name: keyof typeof icons }) {
-  return <span dangerouslySetInnerHTML={{ __html: icons[name] }} />;
-}
+import Box from "@mui/material/Box";
+import Typography from "@mui/material/Typography";
+import Button from "@mui/material/Button";
+import Chip from "@mui/material/Chip";
+import LinearProgress from "@mui/material/LinearProgress";
+import CalendarTodayOutlinedIcon from "@mui/icons-material/CalendarTodayOutlined";
 
 export function SprintBar() {
   return (
-    <div className="bg-white border-b border-gray-200 px-6 py-3.5 flex items-center justify-between">
-      <div className="flex items-center gap-3">
-        <h1 className="text-lg font-bold text-text-primary m-0">Sprint 14</h1>
-        <div className="flex items-center gap-1.5 bg-surface rounded-full px-3 py-1">
-          <span className="text-text-tertiary">
-            <Icon name="calendar" />
-          </span>
-          <span className="text-xs font-medium text-text-secondary">
-            Apr 7 – Apr 21, 2026
-          </span>
-        </div>
-        <div className="bg-amber-50 text-amber-700 text-xs font-semibold px-3 py-1 rounded-full border border-amber-200">
-          5 days left
-        </div>
-        <div className="flex items-center gap-2 ml-2">
-          <div className="w-32 h-1.5 rounded-full bg-gray-100 overflow-hidden">
-            <div
-              className="h-full rounded-full bg-brand-500"
-              style={{ width: "58%" }}
-            />
-          </div>
-          <span className="text-[11px] font-semibold text-text-secondary">
+    <Box
+      sx={{
+        bgcolor: "background.paper",
+        borderBottom: 1,
+        borderColor: "divider",
+        px: 3,
+        py: 1.75,
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "space-between",
+      }}
+    >
+      <Box sx={{ display: "flex", alignItems: "center", gap: 1.5 }}>
+        <Typography variant="h1" sx={{ m: 0 }}>Sprint 14</Typography>
+
+        <Chip
+          icon={<CalendarTodayOutlinedIcon sx={{ fontSize: "14px !important" }} />}
+          label="Apr 7 – Apr 21, 2026"
+          size="small"
+          sx={{
+            bgcolor: "background.default",
+            color: "text.secondary",
+            fontWeight: 500,
+            "& .MuiChip-icon": { color: "text.disabled" },
+          }}
+        />
+
+        <Chip
+          label="5 days left"
+          size="small"
+          sx={{
+            bgcolor: "#fffbeb",
+            color: "#b45309",
+            border: "1px solid #fde68a",
+            fontWeight: 600,
+          }}
+        />
+
+        <Box sx={{ display: "flex", alignItems: "center", gap: 1, ml: 1 }}>
+          <LinearProgress
+            variant="determinate"
+            value={58}
+            sx={{
+              width: 128,
+              height: 6,
+              borderRadius: 3,
+              bgcolor: "action.hover",
+              "& .MuiLinearProgress-bar": { borderRadius: 3 },
+            }}
+          />
+          <Typography sx={{ fontSize: 11, fontWeight: 600, color: "text.secondary" }}>
             58%
-          </span>
-        </div>
-      </div>
-      <button className="flex items-center gap-1.5 border border-gray-300 hover:border-gray-400 text-[13px] font-semibold text-text-secondary hover:text-text-primary px-4 py-1.5 rounded-lg transition-colors">
+          </Typography>
+        </Box>
+      </Box>
+
+      <Button
+        variant="outlined"
+        size="small"
+        sx={{
+          height: 34,
+          fontSize: 13,
+          color: "text.secondary",
+          borderColor: "divider",
+          "&:hover": { borderColor: "text.disabled", color: "text.primary" },
+        }}
+      >
         Complete Sprint
-      </button>
-    </div>
+      </Button>
+    </Box>
   );
 }

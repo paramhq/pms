@@ -1,9 +1,9 @@
 import { useState } from "react";
-import { icons } from "../icons";
-
-function Icon({ name }: { name: keyof typeof icons }) {
-  return <span dangerouslySetInnerHTML={{ __html: icons[name] }} />;
-}
+import Box from "@mui/material/Box";
+import Chip from "@mui/material/Chip";
+import Divider from "@mui/material/Divider";
+import FilterListIcon from "@mui/icons-material/FilterList";
+import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 
 interface FilterChip {
   label: string;
@@ -26,29 +26,56 @@ export function FilterBar() {
   };
 
   return (
-    <div className="flex items-center gap-2 px-6 py-3">
-      <span className="text-text-tertiary mr-1">
-        <Icon name="filter" />
-      </span>
+    <Box sx={{ display: "flex", alignItems: "center", gap: 1, px: 3, py: 1.5 }}>
+      <FilterListIcon sx={{ fontSize: 16, color: "text.disabled", mr: 0.5 }} />
       {filters.map((f, i) => (
-        <button
+        <Chip
           key={f.label}
+          label={f.label}
+          size="small"
+          deleteIcon={<KeyboardArrowDownIcon sx={{ fontSize: "16px !important" }} />}
+          onDelete={() => {}} // keeps the delete icon visible as a dropdown arrow
           onClick={() => toggleFilter(i)}
-          className={`flex items-center gap-1 px-2.5 py-1.5 rounded-md text-xs font-medium border transition-colors ${
-            f.active
-              ? "bg-brand-50 text-brand-600 border-brand-200"
-              : "bg-white text-text-secondary border-gray-200 hover:border-gray-300 hover:text-text-primary"
-          }`}
-        >
-          {f.label}
-          <Icon name="chevronDown" />
-        </button>
+          variant={f.active ? "filled" : "outlined"}
+          sx={{
+            fontWeight: 500,
+            fontSize: 12,
+            cursor: "pointer",
+            ...(f.active
+              ? {
+                  bgcolor: "primary.light",
+                  color: "primary.main",
+                  border: "1px solid",
+                  borderColor: "primary.200",
+                  "& .MuiChip-deleteIcon": { color: "primary.main" },
+                }
+              : {
+                  bgcolor: "background.paper",
+                  borderColor: "divider",
+                  color: "text.secondary",
+                  "& .MuiChip-deleteIcon": { color: "text.disabled" },
+                  "&:hover": { borderColor: "text.disabled", color: "text.primary" },
+                }),
+          }}
+        />
       ))}
-      <div className="w-px h-5 bg-gray-200 mx-1" />
-      <button className="flex items-center gap-1 px-2.5 py-1.5 rounded-md text-xs font-medium bg-white text-text-secondary border border-gray-200 hover:border-gray-300 transition-colors">
-        Group by: Status
-        <Icon name="chevronDown" />
-      </button>
-    </div>
+      <Divider orientation="vertical" flexItem sx={{ mx: 0.5, my: 0.5 }} />
+      <Chip
+        label="Group by: Status"
+        size="small"
+        variant="outlined"
+        deleteIcon={<KeyboardArrowDownIcon sx={{ fontSize: "16px !important" }} />}
+        onDelete={() => {}}
+        sx={{
+          fontWeight: 500,
+          fontSize: 12,
+          bgcolor: "background.paper",
+          borderColor: "divider",
+          color: "text.secondary",
+          "& .MuiChip-deleteIcon": { color: "text.disabled" },
+          "&:hover": { borderColor: "text.disabled" },
+        }}
+      />
+    </Box>
   );
 }

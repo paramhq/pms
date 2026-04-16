@@ -1,90 +1,146 @@
-import { icons } from "../icons";
+import Box from "@mui/material/Box";
+import Typography from "@mui/material/Typography";
+import Avatar from "@mui/material/Avatar";
+import Chip from "@mui/material/Chip";
+import IconButton from "@mui/material/IconButton";
+import Paper from "@mui/material/Paper";
+import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
+import ChatBubbleOutlineIcon from "@mui/icons-material/ChatBubbleOutlineOutlined";
+import AttachFileIcon from "@mui/icons-material/AttachFile";
+import CheckBoxOutlinedIcon from "@mui/icons-material/CheckBoxOutlined";
+import BugReportIcon from "@mui/icons-material/BugReport";
+import TaskAltIcon from "@mui/icons-material/TaskAlt";
+import RemoveIcon from "@mui/icons-material/Remove";
+import WarningIcon from "@mui/icons-material/Warning";
+import ArrowUpwardIcon from "@mui/icons-material/ArrowUpward";
+import DragHandleIcon from "@mui/icons-material/DragHandle";
+import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
 import type { Issue } from "../data";
+import { issueType, priority as priorityColors } from "../theme";
 
-function Icon({ name }: { name: keyof typeof icons }) {
-  return <span dangerouslySetInnerHTML={{ __html: icons[name] }} />;
-}
+const typeIconMap: Record<string, React.ReactNode> = {
+  story: <CheckBoxOutlinedIcon sx={{ fontSize: 14, color: issueType.story }} />,
+  bug: <BugReportIcon sx={{ fontSize: 14, color: issueType.bug }} />,
+  task: <TaskAltIcon sx={{ fontSize: 14, color: issueType.task }} />,
+  subtask: <RemoveIcon sx={{ fontSize: 14, bgcolor: issueType.subtask, borderRadius: 0.5, color: "#fff" }} />,
+};
 
-const priorityIconMap = {
-  critical: "criticalPriority",
-  high: "highPriority",
-  medium: "mediumPriority",
-  low: "lowPriority",
-} as const;
+const priorityIconMap: Record<string, React.ReactNode> = {
+  critical: <WarningIcon sx={{ fontSize: 14, color: priorityColors.critical }} />,
+  high: <ArrowUpwardIcon sx={{ fontSize: 14, color: priorityColors.high }} />,
+  medium: <DragHandleIcon sx={{ fontSize: 14, color: priorityColors.medium }} />,
+  low: <ArrowDownwardIcon sx={{ fontSize: 14, color: priorityColors.low }} />,
+};
 
-interface IssueCardProps {
-  issue: Issue;
-}
-
-export function IssueCard({ issue }: IssueCardProps) {
+export function IssueCard({ issue }: { issue: Issue }) {
   return (
-    <div className="group bg-surface-card rounded-lg border border-gray-100 p-3.5 shadow-sm hover:shadow-md hover:border-brand-200 transition-all duration-150 cursor-pointer">
+    <Paper
+      elevation={0}
+      sx={{
+        p: 1.75,
+        border: 1,
+        borderColor: "grey.100",
+        borderRadius: 2,
+        cursor: "pointer",
+        transition: "all 0.15s",
+        "&:hover": {
+          boxShadow: 2,
+          borderColor: "primary.200",
+          "& .more-btn": { opacity: 1 },
+        },
+      }}
+    >
       {/* Top row */}
-      <div className="flex items-center justify-between mb-2">
-        <div className="flex items-center gap-1.5">
-          <span className="flex-shrink-0">
-            <Icon name={issue.type} />
-          </span>
-          <span className="text-xs font-medium text-text-tertiary">
+      <Box sx={{ display: "flex", alignItems: "center", justifyContent: "space-between", mb: 1 }}>
+        <Box sx={{ display: "flex", alignItems: "center", gap: 0.75 }}>
+          {typeIconMap[issue.type]}
+          <Typography sx={{ fontSize: 12, fontWeight: 500, color: "text.disabled" }}>
             {issue.id}
-          </span>
-        </div>
-        <button className="opacity-0 group-hover:opacity-100 transition-opacity p-0.5 rounded hover:bg-gray-100 text-text-tertiary">
-          <Icon name="moreHorizontal" />
-        </button>
-      </div>
+          </Typography>
+        </Box>
+        <IconButton
+          size="small"
+          className="more-btn"
+          sx={{ opacity: 0, transition: "opacity 0.15s", p: 0.25 }}
+        >
+          <MoreHorizIcon sx={{ fontSize: 16, color: "text.disabled" }} />
+        </IconButton>
+      </Box>
 
       {/* Title */}
-      <p className="text-sm font-medium text-text-primary leading-snug mb-3">
+      <Typography sx={{ fontSize: 13, fontWeight: 500, color: "text.primary", lineHeight: 1.45, mb: 1.5 }}>
         {issue.title}
-      </p>
+      </Typography>
 
       {/* Labels */}
       {issue.labels && (
-        <div className="flex flex-wrap gap-1 mb-3">
+        <Box sx={{ display: "flex", flexWrap: "wrap", gap: 0.5, mb: 1.5 }}>
           {issue.labels.map((label) => (
-            <span
+            <Chip
               key={label}
-              className="px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide rounded-full bg-brand-50 text-brand-600"
-            >
-              {label}
-            </span>
+              label={label.toUpperCase()}
+              size="small"
+              sx={{
+                height: 20,
+                fontSize: 10,
+                fontWeight: 700,
+                letterSpacing: "0.04em",
+                bgcolor: "primary.light",
+                color: "primary.dark",
+              }}
+            />
           ))}
-        </div>
+        </Box>
       )}
 
       {/* Bottom row */}
-      <div className="flex items-center justify-between">
-        <div className="flex items-center gap-2">
-          <span className="flex-shrink-0" title={`${issue.priority} priority`}>
-            <Icon name={priorityIconMap[issue.priority]} />
-          </span>
+      <Box sx={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+        <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+          {priorityIconMap[issue.priority]}
           {issue.storyPoints != null && (
-            <span className="flex items-center justify-center w-5 h-5 text-[10px] font-bold rounded bg-gray-100 text-text-secondary">
+            <Box
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                width: 20,
+                height: 20,
+                fontSize: 10,
+                fontWeight: 700,
+                borderRadius: 1,
+                bgcolor: "action.hover",
+                color: "text.secondary",
+              }}
+            >
               {issue.storyPoints}
-            </span>
+            </Box>
           )}
           {issue.commentCount != null && (
-            <span className="flex items-center gap-0.5 text-text-tertiary">
-              <Icon name="message" />
-              <span className="text-[11px]">{issue.commentCount}</span>
-            </span>
+            <Box sx={{ display: "flex", alignItems: "center", gap: 0.25, color: "text.disabled" }}>
+              <ChatBubbleOutlineIcon sx={{ fontSize: 13 }} />
+              <Typography sx={{ fontSize: 11 }}>{issue.commentCount}</Typography>
+            </Box>
           )}
           {issue.attachmentCount != null && (
-            <span className="flex items-center gap-0.5 text-text-tertiary">
-              <Icon name="paperclip" />
-              <span className="text-[11px]">{issue.attachmentCount}</span>
-            </span>
+            <Box sx={{ display: "flex", alignItems: "center", gap: 0.25, color: "text.disabled" }}>
+              <AttachFileIcon sx={{ fontSize: 13, transform: "rotate(45deg)" }} />
+              <Typography sx={{ fontSize: 11 }}>{issue.attachmentCount}</Typography>
+            </Box>
           )}
-        </div>
-        <div
-          className="w-6 h-6 rounded-full flex items-center justify-center text-[10px] font-bold text-white flex-shrink-0"
-          style={{ background: issue.assignee.color }}
+        </Box>
+        <Avatar
+          sx={{
+            width: 24,
+            height: 24,
+            fontSize: 10,
+            fontWeight: 700,
+            bgcolor: issue.assignee.color,
+          }}
           title={issue.assignee.name}
         >
           {issue.assignee.initials}
-        </div>
-      </div>
-    </div>
+        </Avatar>
+      </Box>
+    </Paper>
   );
 }

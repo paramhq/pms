@@ -1,57 +1,114 @@
-import { icons } from "../icons";
-
-function Icon({ name }: { name: keyof typeof icons }) {
-  return <span dangerouslySetInnerHTML={{ __html: icons[name] }} />;
-}
+import Box from "@mui/material/Box";
+import Typography from "@mui/material/Typography";
+import Button from "@mui/material/Button";
+import IconButton from "@mui/material/IconButton";
+import InputBase from "@mui/material/InputBase";
+import Badge from "@mui/material/Badge";
+import SearchIcon from "@mui/icons-material/Search";
+import NotificationsNoneIcon from "@mui/icons-material/NotificationsNone";
+import AddIcon from "@mui/icons-material/Add";
 
 export function Header() {
   return (
-    <header className="h-[56px] min-h-[56px] bg-white border-b border-gray-200 flex items-center justify-between px-6">
+    <Box
+      component="header"
+      sx={{
+        height: 56,
+        minHeight: 56,
+        bgcolor: "background.paper",
+        borderBottom: 1,
+        borderColor: "divider",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "space-between",
+        px: 3,
+      }}
+    >
       {/* Breadcrumb */}
-      <div className="flex items-center gap-1.5 text-[13px]">
-        <a
+      <Box sx={{ display: "flex", alignItems: "center", gap: 0.75 }}>
+        <Typography
+          component="a"
           href="#"
-          className="text-text-tertiary hover:text-text-primary transition-colors"
+          sx={{ fontSize: 13, color: "text.disabled", textDecoration: "none", "&:hover": { color: "text.primary" }, transition: "color 0.15s" }}
         >
           Projects
-        </a>
-        <span className="text-gray-300">/</span>
-        <a
+        </Typography>
+        <Typography sx={{ fontSize: 13, color: "divider" }}>/</Typography>
+        <Typography
+          component="a"
           href="#"
-          className="text-text-tertiary hover:text-text-primary transition-colors"
+          sx={{ fontSize: 13, color: "text.disabled", textDecoration: "none", "&:hover": { color: "text.primary" }, transition: "color 0.15s" }}
         >
           PMS
-        </a>
-        <span className="text-gray-300">/</span>
-        <span className="font-semibold text-text-primary">Board</span>
-      </div>
+        </Typography>
+        <Typography sx={{ fontSize: 13, color: "divider" }}>/</Typography>
+        <Typography sx={{ fontSize: 13, fontWeight: 600, color: "text.primary" }}>
+          Board
+        </Typography>
+      </Box>
 
       {/* Right actions */}
-      <div className="flex items-center gap-2.5">
+      <Box sx={{ display: "flex", alignItems: "center", gap: 1.25 }}>
         {/* Search */}
-        <div className="flex items-center gap-2 bg-surface rounded-lg border border-gray-200 px-3 h-9 w-[220px] focus-within:border-brand-500 focus-within:ring-2 focus-within:ring-brand-100 transition-all">
-          <span className="text-text-tertiary">
-            <Icon name="search" />
-          </span>
-          <input
-            type="text"
+        <Box
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            gap: 1,
+            bgcolor: "background.default",
+            borderRadius: 2,
+            border: 1,
+            borderColor: "divider",
+            px: 1.5,
+            height: 36,
+            width: 220,
+            "&:focus-within": {
+              borderColor: "primary.main",
+              boxShadow: (t) => `0 0 0 2px ${t.palette.primary.light}`,
+            },
+            transition: "all 0.15s",
+          }}
+        >
+          <SearchIcon sx={{ fontSize: 16, color: "text.disabled" }} />
+          <InputBase
             placeholder="Search issues..."
-            className="bg-transparent border-none outline-none text-[13px] text-text-primary placeholder:text-text-tertiary w-full"
+            sx={{ fontSize: 13, flex: 1, "& input": { p: 0 } }}
           />
-        </div>
+        </Box>
 
         {/* Notifications */}
-        <button className="relative p-2 rounded-lg bg-surface border border-gray-200 text-text-secondary hover:bg-surface-hover hover:text-text-primary transition-colors">
-          <Icon name="bell" />
-          <span className="absolute top-1.5 right-1.5 w-2 h-2 rounded-full bg-red-500 ring-2 ring-white" />
-        </button>
+        <IconButton
+          size="small"
+          sx={{
+            bgcolor: "background.default",
+            border: 1,
+            borderColor: "divider",
+            borderRadius: 2,
+            width: 36,
+            height: 36,
+            "&:hover": { bgcolor: "action.hover" },
+          }}
+        >
+          <Badge
+            variant="dot"
+            color="error"
+            overlap="circular"
+            sx={{ "& .MuiBadge-dot": { top: 2, right: 2, width: 8, height: 8, border: "2px solid #fff" } }}
+          >
+            <NotificationsNoneIcon sx={{ fontSize: 18 }} />
+          </Badge>
+        </IconButton>
 
-        {/* Create */}
-        <button className="flex items-center gap-1.5 bg-brand-500 hover:bg-brand-600 text-white text-[13px] font-semibold px-4 h-9 rounded-lg transition-colors shadow-sm">
-          <Icon name="plus" />
-          <span>Create Issue</span>
-        </button>
-      </div>
-    </header>
+        {/* Create Issue */}
+        <Button
+          variant="contained"
+          size="small"
+          startIcon={<AddIcon sx={{ fontSize: 18 }} />}
+          sx={{ height: 36, px: 2, fontSize: 13 }}
+        >
+          Create Issue
+        </Button>
+      </Box>
+    </Box>
   );
 }

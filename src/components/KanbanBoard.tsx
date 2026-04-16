@@ -1,46 +1,90 @@
-import { icons } from "../icons";
+import Box from "@mui/material/Box";
+import Typography from "@mui/material/Typography";
+import IconButton from "@mui/material/IconButton";
+import AddIcon from "@mui/icons-material/Add";
 import { columns } from "../data";
 import { IssueCard } from "./IssueCard";
 
-function Icon({ name }: { name: keyof typeof icons }) {
-  return <span dangerouslySetInnerHTML={{ __html: icons[name] }} />;
-}
-
 export function KanbanBoard() {
   return (
-    <div className="flex gap-4 px-6 pb-6 pt-2 flex-1 overflow-x-auto overflow-y-hidden">
+    <Box
+      sx={{
+        display: "flex",
+        gap: 2,
+        px: 3,
+        pb: 3,
+        pt: 1,
+        flex: 1,
+        overflowX: "auto",
+        overflowY: "hidden",
+      }}
+    >
       {columns.map((col) => (
-        <div
+        <Box
           key={col.id}
-          className="flex flex-col min-w-[272px] w-[272px] max-h-full"
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            minWidth: 272,
+            width: 272,
+            maxHeight: "100%",
+          }}
         >
           {/* Column header */}
-          <div className="flex items-center justify-between px-2 mb-3">
-            <div className="flex items-center gap-2">
-              <span
-                className="w-2.5 h-2.5 rounded-full"
-                style={{ background: col.dotColor }}
+          <Box sx={{ display: "flex", alignItems: "center", justifyContent: "space-between", px: 1, mb: 1.5 }}>
+            <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+              <Box
+                sx={{
+                  width: 10,
+                  height: 10,
+                  borderRadius: "50%",
+                  bgcolor: col.dotColor,
+                }}
               />
-              <span className="text-xs font-bold tracking-wider text-text-secondary">
+              <Typography sx={{ fontSize: 12, fontWeight: 700, letterSpacing: "0.06em", color: "text.secondary" }}>
                 {col.title}
-              </span>
-              <span className="flex items-center justify-center min-w-[20px] h-5 px-1.5 text-[11px] font-bold rounded-full bg-gray-100 text-text-tertiary">
+              </Typography>
+              <Box
+                sx={{
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  minWidth: 20,
+                  height: 20,
+                  px: 0.75,
+                  fontSize: 11,
+                  fontWeight: 700,
+                  borderRadius: 5,
+                  bgcolor: "action.hover",
+                  color: "text.disabled",
+                }}
+              >
                 {col.issues.length}
-              </span>
-            </div>
-            <button className="p-1 rounded hover:bg-gray-100 text-text-tertiary transition-colors">
-              <Icon name="plus" />
-            </button>
-          </div>
+              </Box>
+            </Box>
+            <IconButton size="small" sx={{ color: "text.disabled" }}>
+              <AddIcon sx={{ fontSize: 18 }} />
+            </IconButton>
+          </Box>
 
           {/* Cards */}
-          <div className="flex flex-col gap-2.5 overflow-y-auto flex-1 pr-1 pb-2">
+          <Box
+            sx={{
+              display: "flex",
+              flexDirection: "column",
+              gap: 1.25,
+              overflowY: "auto",
+              flex: 1,
+              pr: 0.5,
+              pb: 1,
+            }}
+          >
             {col.issues.map((issue) => (
               <IssueCard key={issue.id} issue={issue} />
             ))}
-          </div>
-        </div>
+          </Box>
+        </Box>
       ))}
-    </div>
+    </Box>
   );
 }

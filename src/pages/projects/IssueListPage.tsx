@@ -45,6 +45,10 @@ export default function IssueListPage() {
         const id = issue.assigneeId ?? "__unassigned__";
         if (!filters.assigneeId.includes(id)) return false;
       }
+      if (filters.searchText) {
+        const q = filters.searchText.toLowerCase();
+        if (!issue.title.toLowerCase().includes(q) && !issue.description.toLowerCase().includes(q)) return false;
+      }
       return true;
     });
   }, [issues, filters]);

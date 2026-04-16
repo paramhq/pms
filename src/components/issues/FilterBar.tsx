@@ -1,6 +1,7 @@
 import { useState, useCallback, type ReactNode } from "react";
 import Box from "@mui/material/Box";
 import Chip from "@mui/material/Chip";
+import InputBase from "@mui/material/InputBase";
 import Popover from "@mui/material/Popover";
 import List from "@mui/material/List";
 import ListItemButton from "@mui/material/ListItemButton";
@@ -8,6 +9,7 @@ import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import Checkbox from "@mui/material/Checkbox";
 import FilterListRoundedIcon from "@mui/icons-material/FilterListRounded";
+import SearchRoundedIcon from "@mui/icons-material/SearchRounded";
 import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
 import KeyboardArrowDownRoundedIcon from "@mui/icons-material/KeyboardArrowDownRounded";
 import type { IssueFilters, Assignee, Status, Priority, IssueType } from "@/types/issue";
@@ -117,10 +119,35 @@ export function FilterBar({ filters, onFiltersChange, assignees }: FilterBarProp
     filters.status.length > 0 ||
     filters.priority.length > 0 ||
     filters.type.length > 0 ||
-    filters.assigneeId.length > 0;
+    filters.assigneeId.length > 0 ||
+    filters.searchText.length > 0;
 
   return (
     <Box sx={{ display: "flex", alignItems: "center", gap: 1, mb: 2 }}>
+      <Box
+        sx={{
+          display: "flex",
+          alignItems: "center",
+          gap: 0.75,
+          bgcolor: "background.paper",
+          border: "1px solid",
+          borderColor: "divider",
+          borderRadius: 2,
+          px: 1.25,
+          height: 30,
+          width: 180,
+          "&:focus-within": { borderColor: palette.purple[400] },
+          transition: "border-color 0.15s",
+        }}
+      >
+        <SearchRoundedIcon sx={{ fontSize: 14, color: "text.disabled" }} />
+        <InputBase
+          placeholder="Search issues..."
+          value={filters.searchText}
+          onChange={(e) => onFiltersChange({ ...filters, searchText: e.target.value })}
+          sx={{ fontSize: 12, flex: 1, "& input": { p: 0 } }}
+        />
+      </Box>
       <FilterListRoundedIcon sx={{ fontSize: 16, color: "text.disabled", mr: 0.25 }} />
 
       <FilterChipDropdown<Status>

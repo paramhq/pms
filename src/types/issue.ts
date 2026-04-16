@@ -33,6 +33,7 @@ export interface IssueFilters {
   priority: Priority[];
   type: IssueType[];
   assigneeId: string[];
+  searchText: string;
 }
 
 // Lookup arrays for dropdowns
@@ -68,4 +69,5 @@ export const EMPTY_FILTERS: IssueFilters = {
   priority: [],
   type: [],
   assigneeId: [],
+  searchText: "",
 };

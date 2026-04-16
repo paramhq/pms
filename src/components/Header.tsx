@@ -1,3 +1,4 @@
+import { NavLink } from "react-router";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
@@ -97,6 +98,8 @@ export function Header() {
 
         {/* Notifications */}
         <IconButton
+          component={NavLink}
+          to="/notifications"
           size="small"
           sx={{
             bgcolor: "background.paper",

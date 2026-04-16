@@ -164,6 +164,7 @@ export const priorityColors = {
   high: "#f97316",
   medium: "#eab308",
   low: "#6b7280",
+  none: "#d1d5db",
 } as const;
 
 // Issue type colors

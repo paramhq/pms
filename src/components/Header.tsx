@@ -2,14 +2,16 @@ import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import IconButton from "@mui/material/IconButton";
-import InputBase from "@mui/material/InputBase";
 import Badge from "@mui/material/Badge";
-import SearchRoundedIcon from "@mui/icons-material/SearchRounded";
 import NotificationsNoneRoundedIcon from "@mui/icons-material/NotificationsNoneRounded";
 import AddRoundedIcon from "@mui/icons-material/AddRounded";
+import SearchRoundedIcon from "@mui/icons-material/SearchRounded";
 import { palette } from "@/theme";
+import { useCommandPalette } from "@/components/CommandPalette";
 
 export function Header() {
+  const { open: openPalette } = useCommandPalette();
+
   return (
     <Box
       component="header"
@@ -51,8 +53,9 @@ export function Header() {
 
       {/* Right actions */}
       <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
-        {/* Search */}
+        {/* Search — opens Command Palette */}
         <Box
+          onClick={openPalette}
           sx={{
             display: "flex",
             alignItems: "center",
@@ -64,18 +67,32 @@ export function Header() {
             px: 1.5,
             height: 34,
             width: 200,
-            "&:focus-within": {
-              borderColor: palette.purple[400],
-              boxShadow: `0 0 0 3px ${palette.purple[100]}`,
+            cursor: "pointer",
+            transition: "all 0.15s",
+            "&:hover": {
+              borderColor: palette.purple[300],
+              bgcolor: palette.purple[50],
             },
-            transition: "all 0.2s ease",
           }}
         >
           <SearchRoundedIcon sx={{ fontSize: 16, color: "text.disabled" }} />
-          <InputBase
-            placeholder="Search..."
-            sx={{ fontSize: 13, flex: 1, "& input": { p: 0 } }}
-          />
+          <Typography sx={{ fontSize: 13, color: "text.disabled", flex: 1 }}>
+            Search...
+          </Typography>
+          <Box
+            sx={{
+              px: 0.75,
+              py: 0.125,
+              borderRadius: 1,
+              border: `1px solid ${palette.page.cardBorder}`,
+              fontSize: 10,
+              fontWeight: 600,
+              color: "text.disabled",
+              fontFamily: "monospace",
+            }}
+          >
+            ⌘K
+          </Box>
         </Box>
 
         {/* Notifications */}

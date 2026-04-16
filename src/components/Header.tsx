@@ -4,20 +4,19 @@ import Button from "@mui/material/Button";
 import IconButton from "@mui/material/IconButton";
 import InputBase from "@mui/material/InputBase";
 import Badge from "@mui/material/Badge";
-import SearchIcon from "@mui/icons-material/Search";
-import NotificationsNoneIcon from "@mui/icons-material/NotificationsNone";
-import AddIcon from "@mui/icons-material/Add";
+import SearchRoundedIcon from "@mui/icons-material/SearchRounded";
+import NotificationsNoneRoundedIcon from "@mui/icons-material/NotificationsNoneRounded";
+import AddRoundedIcon from "@mui/icons-material/AddRounded";
+import { palette } from "@/theme";
 
 export function Header() {
   return (
     <Box
       component="header"
       sx={{
-        height: 56,
-        minHeight: 56,
-        bgcolor: "background.paper",
-        borderBottom: 1,
-        borderColor: "divider",
+        height: 52,
+        minHeight: 52,
+        bgcolor: "transparent",
         display: "flex",
         alignItems: "center",
         justifyContent: "space-between",
@@ -26,52 +25,55 @@ export function Header() {
     >
       {/* Breadcrumb */}
       <Box sx={{ display: "flex", alignItems: "center", gap: 0.75 }}>
-        <Typography
-          component="a"
-          href="#"
-          sx={{ fontSize: 13, color: "text.disabled", textDecoration: "none", "&:hover": { color: "text.primary" }, transition: "color 0.15s" }}
-        >
-          Projects
-        </Typography>
-        <Typography sx={{ fontSize: 13, color: "divider" }}>/</Typography>
-        <Typography
-          component="a"
-          href="#"
-          sx={{ fontSize: 13, color: "text.disabled", textDecoration: "none", "&:hover": { color: "text.primary" }, transition: "color 0.15s" }}
-        >
-          PMS
-        </Typography>
-        <Typography sx={{ fontSize: 13, color: "divider" }}>/</Typography>
+        {["Projects", "PMS"].map((seg, i) => (
+          <Box key={seg} sx={{ display: "flex", alignItems: "center", gap: 0.75 }}>
+            {i > 0 && <Typography sx={{ fontSize: 12, color: "text.disabled" }}>/</Typography>}
+            <Typography
+              component="a"
+              href="#"
+              sx={{
+                fontSize: 13,
+                color: "text.disabled",
+                textDecoration: "none",
+                "&:hover": { color: "text.primary" },
+                transition: "color 0.15s",
+              }}
+            >
+              {seg}
+            </Typography>
+          </Box>
+        ))}
+        <Typography sx={{ fontSize: 12, color: "text.disabled" }}>/</Typography>
         <Typography sx={{ fontSize: 13, fontWeight: 600, color: "text.primary" }}>
-          Board
+          Dashboard
         </Typography>
       </Box>
 
       {/* Right actions */}
-      <Box sx={{ display: "flex", alignItems: "center", gap: 1.25 }}>
+      <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
         {/* Search */}
         <Box
           sx={{
             display: "flex",
             alignItems: "center",
             gap: 1,
-            bgcolor: "background.default",
-            borderRadius: 2,
-            border: 1,
+            bgcolor: "background.paper",
+            borderRadius: 2.5,
+            border: "1px solid",
             borderColor: "divider",
             px: 1.5,
-            height: 36,
-            width: 220,
+            height: 34,
+            width: 200,
             "&:focus-within": {
-              borderColor: "primary.main",
-              boxShadow: (t) => `0 0 0 2px ${t.palette.primary.light}`,
+              borderColor: palette.purple[400],
+              boxShadow: `0 0 0 3px ${palette.purple[100]}`,
             },
-            transition: "all 0.15s",
+            transition: "all 0.2s ease",
           }}
         >
-          <SearchIcon sx={{ fontSize: 16, color: "text.disabled" }} />
+          <SearchRoundedIcon sx={{ fontSize: 16, color: "text.disabled" }} />
           <InputBase
-            placeholder="Search issues..."
+            placeholder="Search..."
             sx={{ fontSize: 13, flex: 1, "& input": { p: 0 } }}
           />
         </Box>
@@ -80,33 +82,40 @@ export function Header() {
         <IconButton
           size="small"
           sx={{
-            bgcolor: "background.default",
-            border: 1,
+            bgcolor: "background.paper",
+            border: "1px solid",
             borderColor: "divider",
-            borderRadius: 2,
-            width: 36,
-            height: 36,
-            "&:hover": { bgcolor: "action.hover" },
+            borderRadius: 2.5,
+            width: 34,
+            height: 34,
+            "&:hover": { bgcolor: palette.purple[50] },
           }}
         >
           <Badge
             variant="dot"
             color="error"
-            overlap="circular"
-            sx={{ "& .MuiBadge-dot": { top: 2, right: 2, width: 8, height: 8, border: "2px solid #fff" } }}
+            sx={{
+              "& .MuiBadge-dot": {
+                width: 7,
+                height: 7,
+                border: "2px solid #fff",
+                top: 1,
+                right: 1,
+              },
+            }}
           >
-            <NotificationsNoneIcon sx={{ fontSize: 18 }} />
+            <NotificationsNoneRoundedIcon sx={{ fontSize: 18, color: "text.secondary" }} />
           </Badge>
         </IconButton>
 
-        {/* Create Issue */}
+        {/* Create */}
         <Button
           variant="contained"
           size="small"
-          startIcon={<AddIcon sx={{ fontSize: 18 }} />}
-          sx={{ height: 36, px: 2, fontSize: 13 }}
+          startIcon={<AddRoundedIcon sx={{ fontSize: "18px !important" }} />}
+          sx={{ height: 34, px: 2 }}
         >
-          Create Issue
+          New Issue
         </Button>
       </Box>
     </Box>

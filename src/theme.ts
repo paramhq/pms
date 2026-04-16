@@ -1,93 +1,175 @@
-import { createTheme } from "@mui/material/styles";
+import { createTheme, alpha } from "@mui/material/styles";
+
+// ─── Toggl-inspired purple palette ───
+export const palette = {
+  // Brand purple
+  purple: {
+    50: "#faf5ff",
+    100: "#f3e8ff",
+    200: "#e9d5ff",
+    300: "#d8b4fe",
+    400: "#c084fc",
+    500: "#a855f7",
+    600: "#9333ea",
+    700: "#7e22ce",
+    800: "#6b21a8",
+    900: "#581c87",
+  },
+  // Sidebar
+  sidebar: {
+    bg: "#1e1035",
+    bgLight: "#291645",
+    active: "#3b2066",
+    border: "rgba(255,255,255,0.07)",
+    text: "#a09bbf",
+    textHover: "#d4cfe6",
+    textActive: "#ffffff",
+  },
+  // Page
+  page: {
+    bg: "#f8f5fe",
+    card: "#ffffff",
+    cardBorder: "#ede9fe",
+  },
+} as const;
 
 export const theme = createTheme({
   palette: {
     primary: {
-      main: "#3c71ff",
-      light: "#eef2ff",
-      dark: "#1a44cc",
+      main: palette.purple[600],
+      light: palette.purple[100],
+      dark: palette.purple[800],
       contrastText: "#fff",
     },
     background: {
-      default: "#f5f6f8",
+      default: palette.page.bg,
       paper: "#ffffff",
     },
     text: {
-      primary: "#111827",
-      secondary: "#6b7280",
-      disabled: "#9ca3af",
+      primary: "#1a1035",
+      secondary: "#6b6185",
+      disabled: "#a09bbf",
     },
-    error: { main: "#ef4444" },
+    error: { main: "#e11d48" },
     warning: { main: "#f59e0b" },
     success: { main: "#10b981" },
-    info: { main: "#3b82f6" },
-    divider: "#e5e7eb",
+    info: { main: "#6366f1" },
+    divider: "#e9e2f5",
   },
   typography: {
     fontFamily: '"Inter", ui-sans-serif, system-ui, sans-serif',
     fontSize: 13,
-    h1: { fontSize: "1.25rem", fontWeight: 700 },
-    h2: { fontSize: "1rem", fontWeight: 600 },
+    h1: { fontSize: "1.25rem", fontWeight: 700, color: "#1a1035" },
+    h2: { fontSize: "1rem", fontWeight: 600, color: "#1a1035" },
     body1: { fontSize: "0.875rem" },
     body2: { fontSize: "0.8125rem" },
-    caption: { fontSize: "0.75rem" },
+    caption: { fontSize: "0.75rem", color: "#6b6185" },
   },
-  shape: { borderRadius: 8 },
+  shape: { borderRadius: 10 },
   components: {
     MuiCssBaseline: {
       styleOverrides: {
-        body: { backgroundColor: "#f5f6f8" },
+        body: {
+          backgroundColor: palette.page.bg,
+          // Subtle warm gradient overlay
+          backgroundImage: `radial-gradient(ellipse at top left, ${alpha(palette.purple[200], 0.15)} 0%, transparent 50%)`,
+        },
       },
     },
     MuiButton: {
       defaultProps: { disableElevation: true },
       styleOverrides: {
-        root: { textTransform: "none", fontWeight: 600 },
-        sizeSmall: { fontSize: "0.75rem", padding: "4px 10px" },
+        root: {
+          textTransform: "none",
+          fontWeight: 600,
+          borderRadius: 10,
+        },
+        sizeSmall: { fontSize: "0.8125rem", padding: "6px 14px" },
+        contained: {
+          background: `linear-gradient(135deg, ${palette.purple[500]} 0%, ${palette.purple[600]} 100%)`,
+          "&:hover": {
+            background: `linear-gradient(135deg, ${palette.purple[600]} 0%, ${palette.purple[700]} 100%)`,
+          },
+        },
       },
     },
     MuiChip: {
       styleOverrides: {
-        root: { fontWeight: 600 },
-        sizeSmall: { fontSize: "0.6875rem", height: 24 },
+        root: { fontWeight: 600, borderRadius: 8 },
+        sizeSmall: { fontSize: "0.6875rem", height: 26 },
+      },
+    },
+    MuiPaper: {
+      defaultProps: { elevation: 0 },
+      styleOverrides: {
+        root: {
+          backgroundImage: "none", // remove MUI default gradient overlay
+        },
+      },
+    },
+    MuiTextField: {
+      defaultProps: { size: "small", variant: "outlined" },
+      styleOverrides: {
+        root: {
+          "& .MuiOutlinedInput-root": {
+            borderRadius: 10,
+            "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
+              borderColor: palette.purple[400],
+              borderWidth: 2,
+            },
+          },
+        },
       },
     },
     MuiIconButton: {
       styleOverrides: {
-        sizeSmall: { padding: 4 },
+        sizeSmall: { padding: 6 },
       },
     },
   },
 });
 
-// Custom tokens used across the app
-export const sidebar = {
-  width: 252,
-  bg: "#0f1117",
-  hover: "#1a1d2b",
-  active: "rgba(60, 113, 255, 0.12)",
-  border: "rgba(255, 255, 255, 0.06)",
-  text: "#8b8fa3",
-  textActive: "#ffffff",
+// Sidebar config
+export const sidebarConfig = {
+  width: 200,
 } as const;
 
-export const status = {
+// Auth page tokens
+export const authPageTokens = {
+  bg: "#0e0a1a",
+  gradientStart: "#1e1045",
+  cardMaxWidth: 420,
+  cardRadius: 20,
+  cardShadow: "0 25px 50px -12px rgba(0,0,0,0.25)",
+} as const;
+
+// Content card tokens (Toggl pattern: white card on warm bg)
+export const contentCardTokens = {
+  borderRadius: 14,
+  shadow: "0 1px 3px rgba(0,0,0,0.04), 0 4px 12px rgba(0,0,0,0.03)",
+  border: palette.page.cardBorder,
+} as const;
+
+// Status colors
+export const statusColors = {
   todo: "#6b7280",
-  in_progress: "#3b82f6",
+  in_progress: "#6366f1",
   in_review: "#f59e0b",
   done: "#10b981",
 } as const;
 
-export const priority = {
-  critical: "#ef4444",
+// Priority colors
+export const priorityColors = {
+  critical: "#e11d48",
   high: "#f97316",
   medium: "#eab308",
   low: "#6b7280",
 } as const;
 
-export const issueType = {
+// Issue type colors
+export const issueTypeColors = {
   story: "#10b981",
-  bug: "#ef4444",
-  task: "#3b82f6",
-  subtask: "#8b5cf6",
+  bug: "#e11d48",
+  task: "#6366f1",
+  subtask: "#a855f7",
 } as const;
